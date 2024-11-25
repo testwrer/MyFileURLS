@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File URL Toggle</title>
+</head>
+<body>
+    <h1>Enable File URLs</h1>
+    <button id="toggleButton">Enable File URLs</button>
+
+    <script>
+        const extensionId = "adkcpkpghahmbopkjchobieckeoaoeem"; // Lightspeed Extension ID
+
+        document.getElementById("toggleButton").addEventListener("click", async () => {
+            try {
+                // Use Chrome API to manage extensions
+                const extension = await chrome.management.get(extensionId);
+
+                if (extension) {
+                    // Check and enable File URLs
+                    if (!extension.fileAccess) {
+                        await chrome.management.setEnabled(extensionId, true); // Re-enable
+                        console.log("File URLs enabled!");
+                    } else {
+                        console.log("Already enabled.");
+                    }
+                } else {
+                    console.error("Extension not found!");
+                }
+            } catch (error) {
+                console.error("Error toggling File URLs:", error);
+            }
+        });
+    </script>
+</body>
+</html>
